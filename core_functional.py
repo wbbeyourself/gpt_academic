@@ -21,23 +21,30 @@ def get_core_functions():
                         r"同时分解长句，减少重复，并提供改进建议。请只提供文本的更正版本，避免包括解释。请编辑以下文本" + "\n\n",
             "Suffix":   r"",
         },
-        "查找语法错误": {
-            "Prefix":   r"Can you help me ensure that the grammar and the spelling is correct? " +
-                        r"Do not try to polish the text, if no mistake is found, tell me that this paragraph is good." +
-                        r"If you find grammar or spelling mistakes, please list mistakes you find in a two-column markdown table, " +
-                        r"put the original text the first column, " +
-                        r"put the corrected text in the second column and highlight the key words you fixed.""\n"
-                        r"Example:""\n"
-                        r"Paragraph: How is you? Do you knows what is it?""\n"
-                        r"| Original sentence | Corrected sentence |""\n"
-                        r"| :--- | :--- |""\n"
-                        r"| How **is** you? | How **are** you? |""\n"
-                        r"| Do you **knows** what **is** **it**? | Do you **know** what **it** **is** ? |""\n"
-                        r"Below is a paragraph from an academic paper. "
-                        r"You need to report all grammar and spelling mistakes as the example before."
-                        + "\n\n",
+        # "查找语法错误": {
+        #     "Prefix":   r"Can you help me ensure that the grammar and the spelling is correct? " +
+        #                 r"Do not try to polish the text, if no mistake is found, tell me that this paragraph is good." +
+        #                 r"If you find grammar or spelling mistakes, please list mistakes you find in a two-column markdown table, " +
+        #                 r"put the original text the first column, " +
+        #                 r"put the corrected text in the second column and highlight the key words you fixed.""\n"
+        #                 r"Example:""\n"
+        #                 r"Paragraph: How is you? Do you knows what is it?""\n"
+        #                 r"| Original sentence | Corrected sentence |""\n"
+        #                 r"| :--- | :--- |""\n"
+        #                 r"| How **is** you? | How **are** you? |""\n"
+        #                 r"| Do you **knows** what **is** **it**? | Do you **know** what **it** **is** ? |""\n"
+        #                 r"Below is a paragraph from an academic paper. "
+        #                 r"You need to report all grammar and spelling mistakes as the example before."
+        #                 + "\n\n",
+        #     "Suffix":   r"",
+        #     "PreProcess": clear_line_break,    # 预处理：清除换行符
+        # },
+        "单词解释及用法": {
+            "Prefix":   r"给定一个英文单词，要求:""\n"
+                        r"(1) 给出其最常用3种中文翻译;""\n"
+                        r"(2) 5个样例用法及中文翻译, 用 markdown 表格形式返回.""\n""\n"
+                        r"单词:""\n",
             "Suffix":   r"",
-            "PreProcess": clear_line_break,    # 预处理：清除换行符
         },
         "中译英": {
             "Prefix":   r"Please translate following sentence to English:" + "\n\n",
