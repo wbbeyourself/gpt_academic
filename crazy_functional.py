@@ -11,7 +11,7 @@ def get_crazy_functions():
     from crazy_functions.解析项目源代码 import 解析一个C项目
     from crazy_functions.解析项目源代码 import 解析一个Golang项目
     from crazy_functions.解析项目源代码 import 解析一个Java项目
-    from crazy_functions.解析项目源代码 import 解析一个Rect项目
+    from crazy_functions.解析项目源代码 import 解析一个前端项目
     from crazy_functions.高级功能函数模板 import 高阶功能模板函数
     from crazy_functions.代码重写为全英文_多线程 import 全项目切换英文
     from crazy_functions.Latex全文润色 import Latex英文润色
@@ -70,10 +70,10 @@ def get_crazy_functions():
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个Java项目)
         },
-        "解析整个React项目": {
+        "解析整个前端项目（js,ts,css等）": {
             "Color": "stop",  # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
-            "Function": HotReload(解析一个Rect项目)
+            "Function": HotReload(解析一个前端项目)
         },
         "解析整个Lua项目": {
             "Color": "stop",    # 按钮颜色
@@ -234,6 +234,16 @@ def get_crazy_functions():
             "AdvancedArgs": True, # 调用时，唤起高级参数输入区（默认False）
             "ArgsReminder": "支持任意数量的llm接口，用&符号分隔。例如chatglm&gpt-3.5-turbo&api2d-gpt-4", # 高级参数输入区的显示提示
             "Function": HotReload(同时问询_指定模型)
+        },
+    })
+    from crazy_functions.图片生成 import 图片生成
+    function_plugins.update({
+        "图片生成（先切换模型到openai或api2d）": {
+            "Color": "stop",
+            "AsButton": False,
+            "AdvancedArgs": True, # 调用时，唤起高级参数输入区（默认False）
+            "ArgsReminder": "在这里输入分辨率, 如256x256（默认）", # 高级参数输入区的显示提示
+            "Function": HotReload(图片生成)
         },
     })
     ###################### 第n组插件 ###########################

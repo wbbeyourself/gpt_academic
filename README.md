@@ -1,15 +1,15 @@
 > **Note**
 >
-> 本项目依赖的Gradio组件的新版pip包(Gradio 3.26~3.27)有严重bug。所以，请在安装时严格选择requirements.txt中**指定的版本**。 
+> 安装依赖时，请严格选择requirements.txt中**指定的版本**。 
 > 
 > `pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/`
 >
 
-# <img src="docs/logo.png" width="40" > GPT 学术优化 (ChatGPT Academic)
+# <img src="docs/logo.png" width="40" > GPT 学术优化 (GPT Academic)
 
 **如果喜欢这个项目，请给它一个Star；如果你发明了更好用的快捷键或函数插件，欢迎发pull requests**
 
-If you like this project, please give it a Star. If you've come up with more useful academic shortcuts or functional plugins, feel free to open an issue or pull request. We also have a README in [English|](docs/README_EN.md)[日本語|](docs/README_JP.md)[Русский|](docs/README_RS.md)[Français](docs/README_FR.md) translated by this project itself.
+If you like this project, please give it a Star. If you've come up with more useful academic shortcuts or functional plugins, feel free to open an issue or pull request. We also have a README in [English|](docs/README_EN.md)[日本語|](docs/README_JP.md)[한국어|](https://github.com/mldljyh/ko_gpt_academic)[Русский|](docs/README_RS.md)[Français](docs/README_FR.md) translated by this project itself.
 
 > **Note**
 >
@@ -17,10 +17,10 @@ If you like this project, please give it a Star. If you've come up with more use
 >
 > 2.本项目中每个文件的功能都在自译解[`self_analysis.md`](https://github.com/binary-husky/chatgpt_academic/wiki/chatgpt-academic%E9%A1%B9%E7%9B%AE%E8%87%AA%E8%AF%91%E8%A7%A3%E6%8A%A5%E5%91%8A)详细说明。随着版本的迭代，您也可以随时自行点击相关函数插件，调用GPT重新生成项目的自我解析报告。常见问题汇总在[`wiki`](https://github.com/binary-husky/chatgpt_academic/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)当中。
 > 
-> 3.已支持OpenAI和API2D的api-key共存，可在配置文件中填写如`API_KEY="openai-key1,openai-key2,api2d-key3"`。需要临时更换`API_KEY`时，在输入区输入临时的`API_KEY`然后回车键提交后即可生效。
+> 3.本项目兼容并鼓励尝试国产大语言模型chatglm和RWKV, 盘古等等。已支持OpenAI和API2D的api-key共存，可在配置文件中填写如`API_KEY="openai-key1,openai-key2,api2d-key3"`。需要临时更换`API_KEY`时，在输入区输入临时的`API_KEY`然后回车键提交后即可生效。
 
 <div align="center">
-    
+
 功能 | 描述
 --- | ---
 一键润色 | 支持一键润色、一键查找论文语法错误
@@ -41,10 +41,10 @@ chat分析报告生成 | [函数插件] 运行后自动生成总结汇报
 互联网信息聚合+GPT | [函数插件] 一键[让GPT先从互联网获取信息](https://www.bilibili.com/video/BV1om4y127ck)，再回答问题，让信息永不过时
 公式/图片/表格显示 | 可以同时显示公式的[tex形式和渲染形式](https://user-images.githubusercontent.com/96192199/230598842-1d7fcddd-815d-40ee-af60-baf488a199df.png)，支持公式、代码高亮
 多线程函数插件支持 | 支持多线调用chatgpt，一键处理[海量文本](https://www.bilibili.com/video/BV1FT411H7c5/)或程序
-启动暗色gradio[主题](https://github.com/binary-husky/chatgpt_academic/issues/173) | 在浏览器url后面添加```/?__dark-theme=true```可以切换dark主题
-[多LLM模型](https://www.bilibili.com/video/BV1wT411p7yf)支持，[API2D](https://api2d.com/)接口支持 | 同时被GPT3.5、GPT4和[清华ChatGLM](https://github.com/THUDM/ChatGLM-6B)伺候的感觉一定会很不错吧？
-更多LLM模型接入，支持[huggingface部署](https://huggingface.co/spaces/qingxu98/gpt-academic) | 新加入Newbing测试接口(新必应AI)
-…… | ……
+启动暗色gradio[主题](https://github.com/binary-husky/chatgpt_academic/issues/173) | 在浏览器url后面添加```/?__theme=dark```可以切换dark主题
+[多LLM模型](https://www.bilibili.com/video/BV1wT411p7yf)支持，[API2D](https://api2d.com/)接口支持 | 同时被GPT3.5、GPT4、[清华ChatGLM](https://github.com/THUDM/ChatGLM-6B)、[复旦MOSS](https://github.com/OpenLMLab/MOSS)同时伺候的感觉一定会很不错吧？
+更多LLM模型接入，支持[huggingface部署](https://huggingface.co/spaces/qingxu98/gpt-academic) | 加入Newbing接口(新必应)，引入清华[Jittorllms](https://github.com/Jittor/JittorLLMs)支持[LLaMA](https://github.com/facebookresearch/llama)，[RWKV](https://github.com/BlinkDL/ChatRWKV)和[盘古α](https://openi.org.cn/pangu/)
+更多新功能展示(图像生成等) …… | 见本文档结尾处 ……
 
 </div>
 
@@ -92,27 +92,42 @@ cd chatgpt_academic
 
 2. 配置API_KEY
 
-在`config.py`中，配置API KEY等[设置](https://github.com/binary-husky/gpt_academic/issues/1) 。
+在`config.py`中，配置API KEY等设置，[特殊网络环境设置](https://github.com/binary-husky/gpt_academic/issues/1) 。
 
-（P.S. 程序运行时会优先检查是否存在名为`config_private.py`的私密配置文件，并用其中的配置覆盖`config.py`的同名配置。因此，如果您能理解我们的配置读取逻辑，我们强烈建议您在`config.py`旁边创建一个名为`config_private.py`的新配置文件，并把`config.py`中的配置转移（复制）到`config_private.py`中。`config_private.py`不受git管控，可以让您的隐私信息更加安全。）
+（P.S. 程序运行时会优先检查是否存在名为`config_private.py`的私密配置文件，并用其中的配置覆盖`config.py`的同名配置。因此，如果您能理解我们的配置读取逻辑，我们强烈建议您在`config.py`旁边创建一个名为`config_private.py`的新配置文件，并把`config.py`中的配置转移（复制）到`config_private.py`中。`config_private.py`不受git管控，可以让您的隐私信息更加安全。P.S.项目同样支持通过环境变量配置大多数选项，详情可以参考docker-compose文件。）
 
 
 3. 安装依赖
 ```sh
-# （选择I: 如熟悉python）（python版本3.9以上，越新越好）
+# （选择I: 如熟悉python）（python版本3.9以上，越新越好），备注：使用官方pip源或者阿里pip源,临时换源方法：python -m pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 python -m pip install -r requirements.txt
-# 备注：使用官方pip源或者阿里pip源，其他pip源（如一些大学的pip）有可能出问题，临时换源方法：python -m pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
-# （选择II: 如不熟悉python）使用anaconda，步骤也是类似的：
-# （II-1）conda create -n gptac_venv python=3.11
-# （II-2）conda activate gptac_venv
-# （II-3）python -m pip install -r requirements.txt
+# （选择II: 如不熟悉python）使用anaconda，步骤也是类似的 (https://www.bilibili.com/video/BV1rc411W7Dr)：
+conda create -n gptac_venv python=3.11    # 创建anaconda环境
+conda activate gptac_venv                 # 激活anaconda环境
+python -m pip install -r requirements.txt # 这个步骤和pip安装一样的步骤
 ```
 
-如果需要支持清华ChatGLM后端，需要额外安装更多依赖（前提条件：熟悉python + 电脑配置够强）：
+<details><summary>如果需要支持清华ChatGLM/复旦MOSS作为后端，请点击展开此处</summary>
+<p>
+
+【可选步骤】如果需要支持清华ChatGLM/复旦MOSS作为后端，需要额外安装更多依赖（前提条件：熟悉Python + 用过Pytorch + 电脑配置够强）：
 ```sh
-python -m pip install -r request_llm/requirements_chatglm.txt
+# 【可选步骤I】支持清华ChatGLM。清华ChatGLM备注：如果遇到"Call ChatGLM fail 不能正常加载ChatGLM的参数" 错误，参考如下： 1：以上默认安装的为torch+cpu版，使用cuda需要卸载torch重新安装torch+cuda； 2：如因本机配置不够无法加载模型，可以修改request_llm/bridge_chatglm.py中的模型精度, 将 AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True) 都修改为 AutoTokenizer.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=True)
+python -m pip install -r request_llm/requirements_chatglm.txt  
+
+# 【可选步骤II】支持复旦MOSS
+python -m pip install -r request_llm/requirements_moss.txt
+git clone https://github.com/OpenLMLab/MOSS.git request_llm/moss  # 注意执行此行代码时，必须处于项目根路径
+
+# 【可选步骤III】确保config.py配置文件的AVAIL_LLM_MODELS包含了期望的模型，目前支持的全部模型如下(jittorllms系列目前仅支持docker方案)：
+AVAIL_LLM_MODELS = ["gpt-3.5-turbo", "api2d-gpt-3.5-turbo", "gpt-4", "api2d-gpt-4", "chatglm", "newbing", "moss"] # + ["jittorllms_rwkv", "jittorllms_pangualpha", "jittorllms_llama"]
 ```
+
+</p>
+</details>
+
+
 
 4. 运行
 ```sh
@@ -130,35 +145,34 @@ python main.py
 1. 仅ChatGPT（推荐大多数人选择）
 
 ``` sh
-# 下载项目
-git clone https://github.com/binary-husky/chatgpt_academic.git
-cd chatgpt_academic
-# 配置 “Proxy”， “API_KEY” 以及 “WEB_PORT” (例如50923) 等
-用任意文本编辑器编辑 config.py
-# 安装
-docker build -t gpt-academic .
+git clone https://github.com/binary-husky/chatgpt_academic.git  # 下载项目
+cd chatgpt_academic                                 # 进入路径
+nano config.py                                      # 用任意文本编辑器编辑config.py, 配置 “Proxy”， “API_KEY” 以及 “WEB_PORT” (例如50923) 等
+docker build -t gpt-academic .                      # 安装
+
 #（最后一步-选择1）在Linux环境下，用`--net=host`更方便快捷
 docker run --rm -it --net=host gpt-academic
 #（最后一步-选择2）在macOS/windows环境下，只能用-p选项将容器上的端口(例如50923)暴露给主机上的端口
-docker run --rm -it -p 50923:50923 gpt-academic
+docker run --rm -it -e WEB_PORT=50923 -p 50923:50923 gpt-academic
 ```
 
-2. ChatGPT+ChatGLM（需要对Docker熟悉 + 读懂Dockerfile + 电脑配置够强）
+2. ChatGPT + ChatGLM + MOSS（需要熟悉Docker）
 
 ``` sh
-# 修改Dockerfile
-cd docs && nano Dockerfile+ChatGLM
-# 构建 （Dockerfile+ChatGLM在docs路径下，请先cd docs）
-docker build -t gpt-academic --network=host -f Dockerfile+ChatGLM .
-# 运行 (1) 直接运行: 
-docker run --rm -it --net=host --gpus=all gpt-academic
-# 运行 (2) 我想运行之前进容器做一些调整: 
-docker run --rm -it --net=host --gpus=all gpt-academic bash
+# 修改docker-compose.yml，删除方案1和方案3，保留方案2。修改docker-compose.yml中方案2的配置，参考其中注释即可
+docker-compose up
 ```
+
+3. ChatGPT + LLAMA + 盘古 + RWKV（需要熟悉Docker）
+``` sh
+# 修改docker-compose.yml，删除方案1和方案2，保留方案3。修改docker-compose.yml中方案3的配置，参考其中注释即可
+docker-compose up
+```
+
 
 ## 安装-方法3：其他部署姿势
 
-1. 如何使用反代URL/AzureAPI
+1. 如何使用反代URL/微软云AzureAPI
 按照`config.py`中的说明配置API_URL_REDIRECT即可。
 
 2. 远程云服务器部署（需要云服务器知识与经验）
@@ -170,6 +184,8 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 4. 如何在二级网址（如`http://localhost/subpath`）下运行
 请访问[FastAPI运行说明](docs/WithFastapi.md)
 
+5. 使用docker-compose运行
+请阅读docker-compose.yml后，按照其中的提示操作即可
 ---
 
 ## 自定义新的便捷按钮 / 自定义函数插件
@@ -200,12 +216,14 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 
 ## 其他功能说明
 
-1. 对话保存功能。在函数插件区调用 `保存当前的对话` 即可将当前对话保存为可读+可复原的html文件，如图：
+1. 对话保存功能。在函数插件区调用 `保存当前的对话` 即可将当前对话保存为可读+可复原的html文件，
+另外在函数插件区（下拉菜单）调用 `载入对话历史存档` ，即可还原之前的会话。
+Tip：不指定文件直接点击 `载入对话历史存档` 可以查看历史html存档缓存，点击 `删除所有本地对话历史记录` 可以删除所有html存档缓存。
 <div align="center">
 <img src="https://user-images.githubusercontent.com/96192199/235222390-24a9acc0-680f-49f5-bc81-2f3161f1e049.png" width="500" >
 </div>
 
-在函数插件区（下拉菜单）调用 `载入对话历史存档` ，即可还原之前的会话。
+
 
 2. 生成报告。大部分插件都会在执行结束后，生成工作报告
 <div align="center">
@@ -234,6 +252,22 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 <img src="https://user-images.githubusercontent.com/96192199/226969067-968a27c1-1b9c-486b-8b81-ab2de8d3f88a.png" width="500" >
 </div>
 
+6. 装饰[live2d](https://github.com/fghrsh/live2d_demo)的小功能（默认关闭，需要修改`config.py`）
+<div align="center">
+<img src="https://user-images.githubusercontent.com/96192199/236432361-67739153-73e8-43fe-8111-b61296edabd9.png" width="500" >
+</div>
+
+7. 新增MOSS大语言模型支持
+<div align="center">
+<img src="https://user-images.githubusercontent.com/96192199/236639178-92836f37-13af-4fdd-984d-b4450fe30336.png" width="500" >
+</div>
+
+8. OpenAI图像生成
+<div align="center">
+<img src="https://github.com/binary-husky/gpt_academic/assets/96192199/bc7ab234-ad90-48a0-8d62-f703d9e74665" width="500" >
+</div>
+
+
 ## 版本:
 - version 3.5(Todo): 使用自然语言调用本项目的所有函数插件（高优先级）
 - version 3.4(Todo): 完善chatglm本地大模型的多线支持
@@ -250,7 +284,7 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 - version 2.0: 引入模块化函数插件
 - version 1.0: 基础功能
 
-gpt_academic开发者QQ群：734063350
+gpt_academic开发者QQ群-2：610599535
 
 
 ## 参考与学习
@@ -258,9 +292,19 @@ gpt_academic开发者QQ群：734063350
 ```
 代码中参考了很多其他优秀项目中的设计，主要包括：
 
-# 借鉴项目1：借鉴了ChuanhuChatGPT中诸多技巧
+# 项目1：清华ChatGLM-6B：
+https://github.com/THUDM/ChatGLM-6B
+
+# 项目2：清华JittorLLMs：
+https://github.com/Jittor/JittorLLMs
+
+# 项目3：借鉴了ChuanhuChatGPT中诸多技巧
 https://github.com/GaiZhenbiao/ChuanhuChatGPT
 
-# 借鉴项目2：清华ChatGLM-6B：
-https://github.com/THUDM/ChatGLM-6B
+# 项目4：ChatPaper
+https://github.com/kaixindelele/ChatPaper
+
+# 更多：
+https://github.com/gradio-app/gradio
+https://github.com/fghrsh/live2d_demo
 ```
