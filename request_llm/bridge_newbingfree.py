@@ -4,7 +4,7 @@
 https://github.com/acheong08/EdgeGPT
 ========================================================================
 """
-from .edge_gpt import NewbingChatbot
+from .edge_gpt_free import Chatbot as NewbingChatbot
 load_message = "等待NewBing响应。"
 
 """
@@ -126,20 +126,9 @@ class NewBingHandle(Process):
                 self.proxies_https = None
             else: 
                 self.proxies_https = proxies['https']
-            # cookie
-            NEWBING_COOKIES, = get_conf('NEWBING_COOKIES')
-            try:
-                cookies = json.loads(NEWBING_COOKIES)
-            except:
-                self.success = False
-                tb_str = '\n```\n' + trimmed_format_exc() + '\n```\n'
-                self.child.send(f'[Local Message] 不能加载Newbing组件。NEWBING_COOKIES未填写或有格式错误。')
-                self.child.send('[Fail]')
-                self.child.send('[Finish]')
-                raise RuntimeError(f"不能加载Newbing组件。NEWBING_COOKIES未填写或有格式错误。")
 
             try:
-                self.newbing_model = NewbingChatbot(proxy=self.proxies_https, cookies=cookies)
+                self.newbing_model = NewbingChatbot(proxy=self.proxies_https)
             except:
                 self.success = False
                 tb_str = '\n```\n' + trimmed_format_exc() + '\n```\n'
@@ -181,21 +170,21 @@ class NewBingHandle(Process):
 第三部分：主进程统一调用函数接口
 ========================================================================
 """
-global newbing_handle
-newbing_handle = None
+global newbingfree_handle
+newbingfree_handle = None
 
-def predict_no_ui_long_connection(inputs, llm_kwargs, history=[], sys_prompt="", observe_window=None, console_slience=False):
+def predict_no_ui_long_connection(inputs, llm_kwargs, history=[], sys_prompt="", observe_window=[], console_slience=False):
     """
         多线程方法
         函数的说明请见 request_llm/bridge_all.py
     """
-    global newbing_handle
-    if (newbing_handle is None) or (not newbing_handle.success):
-        newbing_handle = NewBingHandle()
-        observe_window[0] = load_message + "\n\n" + newbing_handle.info
-        if not newbing_handle.success: 
-            error = newbing_handle.info
-            newbing_handle = None
+    global newbingfree_handle
+    if (newbingfree_handle is None) or (not newbingfree_handle.success):
+        newbingfree_handle = NewBingHandle()
+        if len(observe_window) >= 1: observe_window[0] = load_message + "\n\n" + newbingfree_handle.info
+        if not newbingfree_handle.success: 
+            error = newbingfree_handle.info
+            newbingfree_handle = None
             raise RuntimeError(error)
 
     # 没有 sys_prompt 接口，因此把prompt加入 history
@@ -205,9 +194,9 @@ def predict_no_ui_long_connection(inputs, llm_kwargs, history=[], sys_prompt="",
 
     watch_dog_patience = 5 # 看门狗 (watchdog) 的耐心, 设置5秒即可
     response = ""
-    observe_window[0] = "[Local Message]: 等待NewBing响应中 ..."
-    for response in newbing_handle.stream_chat(query=inputs, history=history_feedin, system_prompt=sys_prompt, max_length=llm_kwargs['max_length'], top_p=llm_kwargs['top_p'], temperature=llm_kwargs['temperature']):
-        observe_window[0] = preprocess_newbing_out_simple(response)
+    if len(observe_window) >= 1: observe_window[0] = "[Local Message]: 等待NewBing响应中 ..."
+    for response in newbingfree_handle.stream_chat(query=inputs, history=history_feedin, system_prompt=sys_prompt, max_length=llm_kwargs['max_length'], top_p=llm_kwargs['top_p'], temperature=llm_kwargs['temperature']):
+        if len(observe_window) >= 1:  observe_window[0] = preprocess_newbing_out_simple(response)
         if len(observe_window) >= 2:  
             if (time.time()-observe_window[1]) > watch_dog_patience:
                 raise RuntimeError("程序终止。")
@@ -220,13 +209,13 @@ def predict(inputs, llm_kwargs, plugin_kwargs, chatbot, history=[], system_promp
     """
     chatbot.append((inputs, "[Local Message]: 等待NewBing响应中 ..."))
 
-    global newbing_handle
-    if (newbing_handle is None) or (not newbing_handle.success):
-        newbing_handle = NewBingHandle()
-        chatbot[-1] = (inputs, load_message + "\n\n" + newbing_handle.info)
+    global newbingfree_handle
+    if (newbingfree_handle is None) or (not newbingfree_handle.success):
+        newbingfree_handle = NewBingHandle()
+        chatbot[-1] = (inputs, load_message + "\n\n" + newbingfree_handle.info)
         yield from update_ui(chatbot=chatbot, history=[])
-        if not newbing_handle.success: 
-            newbing_handle = None
+        if not newbingfree_handle.success: 
+            newbingfree_handle = None
             return
 
     if additional_fn is not None:
@@ -243,7 +232,7 @@ def predict(inputs, llm_kwargs, plugin_kwargs, chatbot, history=[], system_promp
     chatbot[-1] = (inputs, "[Local Message]: 等待NewBing响应中 ...")
     response = "[Local Message]: 等待NewBing响应中 ..."
     yield from update_ui(chatbot=chatbot, history=history, msg="NewBing响应缓慢，尚未完成全部响应，请耐心完成后再提交新问题。")
-    for response in newbing_handle.stream_chat(query=inputs, history=history_feedin, system_prompt=system_prompt, max_length=llm_kwargs['max_length'], top_p=llm_kwargs['top_p'], temperature=llm_kwargs['temperature']):
+    for response in newbingfree_handle.stream_chat(query=inputs, history=history_feedin, system_prompt=system_prompt, max_length=llm_kwargs['max_length'], top_p=llm_kwargs['top_p'], temperature=llm_kwargs['temperature']):
         chatbot[-1] = (inputs, preprocess_newbing_out(response))
         yield from update_ui(chatbot=chatbot, history=history, msg="NewBing响应缓慢，尚未完成全部响应，请耐心完成后再提交新问题。")
     if response == "[Local Message]: 等待NewBing响应中 ...": response = "[Local Message]: NewBing响应异常，请刷新界面重试 ..."

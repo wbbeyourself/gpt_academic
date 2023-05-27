@@ -10,6 +10,7 @@ def get_crazy_functions():
     from crazy_functions.解析项目源代码 import 解析一个C项目的头文件
     from crazy_functions.解析项目源代码 import 解析一个C项目
     from crazy_functions.解析项目源代码 import 解析一个Golang项目
+    from crazy_functions.解析项目源代码 import 解析一个Rust项目
     from crazy_functions.解析项目源代码 import 解析一个Java项目
     from crazy_functions.解析项目源代码 import 解析一个前端项目
     from crazy_functions.高级功能函数模板 import 高阶功能模板函数
@@ -64,6 +65,11 @@ def get_crazy_functions():
             "Color": "stop",    # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个Golang项目)
+        },
+        "解析整个Rust项目": {
+            "Color": "stop",    # 按钮颜色
+            "AsButton": False,  # 加入下拉菜单中
+            "Function": HotReload(解析一个Rust项目)
         },
         "解析整个Java项目": {
             "Color": "stop",  # 按钮颜色
@@ -125,6 +131,7 @@ def get_crazy_functions():
     from crazy_functions.谷歌检索小助手 import 谷歌检索小助手
     from crazy_functions.理解PDF文档内容 import 理解PDF文档内容标准文件输入
     from crazy_functions.Latex全文润色 import Latex中文润色
+    from crazy_functions.Latex全文润色 import Latex英文纠错
     from crazy_functions.Latex全文翻译 import Latex中译英
     from crazy_functions.Latex全文翻译 import Latex英译中
     from crazy_functions.批量Markdown翻译 import Markdown中译英
@@ -162,11 +169,17 @@ def get_crazy_functions():
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(理解PDF文档内容标准文件输入)
         },
-        "[测试功能] 英文Latex项目全文润色（输入路径或上传压缩包）": {
+        "英文Latex项目全文润色（输入路径或上传压缩包）": {
             # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
             "Color": "stop",
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(Latex英文润色)
+        },
+        "英文Latex项目全文纠错（输入路径或上传压缩包）": {
+            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+            "Color": "stop",
+            "AsButton": False,  # 加入下拉菜单中
+            "Function": HotReload(Latex英文纠错)
         },
         "[测试功能] 中文Latex项目全文润色（输入路径或上传压缩包）": {
             # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
@@ -246,5 +259,41 @@ def get_crazy_functions():
             "Function": HotReload(图片生成)
         },
     })
+    from crazy_functions.总结音视频 import 总结音视频
+    function_plugins.update({
+        "批量总结音视频（输入路径或上传压缩包）": {
+            "Color": "stop",
+            "AsButton": False,
+            "AdvancedArgs": True,
+            "ArgsReminder": "调用openai api 使用whisper-1模型, 目前支持的格式:mp4, m4a, wav, mpga, mpeg, mp3。此处可以输入解析提示，例如：解析为简体中文（默认）。",
+            "Function": HotReload(总结音视频)
+        }
+    })
+    try:
+        from crazy_functions.数学动画生成manim import 动画生成
+        function_plugins.update({
+            "数学动画生成（Manim）": {
+                "Color": "stop",
+                "AsButton": False,
+                "Function": HotReload(动画生成)
+            }
+        })
+    except:
+        print('Load function plugin failed')
+
+    try:
+        from crazy_functions.批量Markdown翻译 import Markdown翻译指定语言
+        function_plugins.update({
+            "Markdown翻译（手动指定语言）": {
+                "Color": "stop",
+                "AsButton": False,
+                "AdvancedArgs": True,
+                "ArgsReminder": "请输入要翻译成哪种语言，默认为Chinese。",
+                "Function": HotReload(Markdown翻译指定语言)
+            }
+        })
+    except:
+        print('Load function plugin failed')
+
     ###################### 第n组插件 ###########################
     return function_plugins

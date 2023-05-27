@@ -44,9 +44,10 @@ WEB_PORT = -1
 # 如果OpenAI不响应（网络卡顿、代理失败、KEY失效），重试的次数限制
 MAX_RETRY = 2
 
-# OpenAI模型选择是（gpt4现在只对申请成功的人开放，体验gpt-4可以试试api2d）
+# 模型选择是 (注意: LLM_MODEL是默认选中的模型, 同时它必须被包含在AVAIL_LLM_MODELS切换列表中 )
 LLM_MODEL = "gpt-3.5-turbo" # 可选 ↓↓↓
-AVAIL_LLM_MODELS = ["gpt-3.5-turbo", "api2d-gpt-3.5-turbo", "gpt-4", "api2d-gpt-4", "chatglm", "moss", "newbing"]
+AVAIL_LLM_MODELS = ["gpt-3.5-turbo", "api2d-gpt-3.5-turbo", "gpt-4", "api2d-gpt-4", "chatglm", "moss", "newbing", "newbing-free", "stack-claude"]
+# P.S. 其他可用的模型还包括 ["newbing-free", "jittorllms_rwkv", "jittorllms_pangualpha", "jittorllms_llama"]
 
 # 本地LLM模型如ChatGLM的执行方式 CPU/GPU
 LOCAL_MODEL_DEVICE = "cpu" # 可选 "cuda"
@@ -54,7 +55,7 @@ LOCAL_MODEL_DEVICE = "cpu" # 可选 "cuda"
 # 设置gradio的并行线程数（不需要修改）
 CONCURRENT_COUNT = 100
 
-# 加一个看板娘装饰
+# 加一个live2d装饰
 ADD_WAIFU = False
 
 # 设置用户名和密码（不需要修改）（相关功能不稳定，与gradio版本和网络都相关，如果本地使用不建议加这个）
@@ -72,6 +73,11 @@ CUSTOM_PATH = "/"
 
 # 如果需要使用newbing，把newbing的长长的cookie放到这里
 NEWBING_STYLE = "creative"  # ["creative", "balanced", "precise"]
+# 从现在起，如果您调用"newbing-free"模型，则无需填写NEWBING_COOKIES
 NEWBING_COOKIES = """
 your bing cookies here
 """
+
+# 如果需要使用Slack Claude，使用教程详情见 request_llm/README.md
+SLACK_CLAUDE_BOT_ID = ''   
+SLACK_CLAUDE_USER_TOKEN = ''
